@@ -1,9 +1,9 @@
 require("dotenv").config();
 import request from "request";
+import chatBotService from "../services/chatBotService";
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-
 
 
 // the postWebhook function is used to recieve every update from Facebook
@@ -120,28 +120,32 @@ function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {    
+let handlePostback = async (sender_psid, received_postback) => {
     let response;
     // Get the payload for the postback
     let payload = received_postback.payload;
     // Set the response based on the postback payload
-    switch(payload) {
+    switch (payload) {
         case "GET_STARTED":
-            response = {"text": "Welcome ABC_NAME to FeastBott!"};
+            // get name of user
+            let username = await chatBotService.getFacebookUsername(sender_psid);
+            response = {
+                "text": `Hi, ${username}, welcome to FeastBott!`
+            };
             break;
         case "no":
             response = {};
             break;
-        case "yes": 
+        case "yes":
             response = {};
             break;
         default:
-            console.log("Something's wrong with switchcase payload");           
-    }    
-  
+            console.log("Something's wrong with switchcase payload");
+    }
+
     // Send the message to acknowledge the postback
-    callSendAPI(sender_psid, response)
-}
+    callSendAPI(sender_psid, response);
+};
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
@@ -169,6 +173,8 @@ function callSendAPI(sender_psid, response) {
         }
     });
 }
+
+
 
 
 module.exports = {
