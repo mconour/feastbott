@@ -57,7 +57,7 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
 };
 
 
-let sendMessage = (sender_id, response) => {
+let sendMessage = (sender_psid, response) => {
     let request_body = {
         "recipient": {
             "id": sender_psid
