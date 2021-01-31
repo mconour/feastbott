@@ -24,35 +24,43 @@ let getFacebookUsername = (sender_psid) => {
 };
 
 let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
-    return new Promise( async (resolve, reject) => {
-        let response_first = {"text": `Hi, ${username}, welcome to FeastBott!`};
-       let response_second = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "FeastBott",
-                        "subtitle": "Tap a button to answer.",
-                        "image_url": "https://bit.ly/3pD31XA",
-                        "buttons": [
-                            {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response_first = {
+                "text": `Hi, ${username}, welcome to FeastBott!`
+            };
+            let response_second = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                            "title": "FeastBott",
+                            "subtitle": "Tap a button to answer.",
+                            "image_url": "https://bit.ly/3pD31XA",
+                            "buttons": [{
                                 "type": "postback",
                                 "title": "Menu",
                                 "payload": "MENU",
-                            }                         
-                        ],
-                    }]
+                            }],
+                        }]
+                    }
                 }
-            }
-        };
+            };
 
-       // send a welcome message
-       await sendMessage(sender_psid, response_first);
+            // send a welcome message
+            await sendMessage(sender_psid, response_first);
 
-       // send an image with button view main menu
-       await sendMessage(sender_psid, response_second);
-       
+            // send an image with button view main menu
+            await sendMessage(sender_psid, response_second);
+
+            resolve(value: "complete!")
+        } catch (e) {
+            reject(e);
+        }
+
+
+
     });
 };
 
