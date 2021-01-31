@@ -41,7 +41,7 @@ let sendResponseWelcomeNewCustomer = (username, sender_psid) => {
                             "buttons": [{
                                 "type": "postback",
                                 "title": "Menu",
-                                "payload": "MENU",
+                                "payload": "MAIN MENU",
                             }],
                         }]
                     }
@@ -83,7 +83,7 @@ let sendMessage = (sender_psid, response) => {
         "json": request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('message sent!')
+            console.log('message sent!');
         } else {
             console.error("Unable to send message:" + err);
         }
